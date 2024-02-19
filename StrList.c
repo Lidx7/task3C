@@ -86,6 +86,7 @@ void StrList_insertLast(StrList* StrList, const char* data)
         last = last->next;
     }
     last->next = newnode;
+    StrList->size++;
     
     
 }
@@ -93,55 +94,173 @@ void StrList_insertLast(StrList* StrList, const char* data)
 /*
 * Inserts an element at given index
 */
-void StrList_insertAt(StrList* StrList,
-	const char* data,int index);
+void StrList_insertAt(StrList* StrList, const char* data,int index)
+{
+    Node* newnode = (Node*)malloc(sizeof(Node));
+    newnode->data = (char*)malloc(strlen(data));
+    Node* current = StrList->head;
+    if(index <= StrList->size)
+    {
+        for (int i = 0; i < index; i++)
+        {
+            current = current->next;
+        } 
+        newnode->next = current->next;
+        current->next = newnode;
+        StrList->size++;
+    }
+}
 
 /*
  * Returns the StrList first data.
  */
-char* StrList_firstData(const StrList* StrList);
+char* StrList_firstData(const StrList* StrList)
+{
+    return StrList->head->data;
+}
 
 /*
  * Prints the StrList to the standard output.
  */
-void StrList_print(const StrList* StrList);
+void StrList_print(const StrList* StrList)
+{
+    Node* current = StrList->head;
+    while (current != NULL)
+    {
+        printf("%s\n", current->data);
+        current = current->next;
+    }
+
+}
 
 /*
  Prints the word at the given index to the standard output.
 */
-void StrList_printAt(const StrList* Strlist,int index);
+void StrList_printAt(const StrList* Strlist,int index)
+{
+    Node* current = Strlist->head;
+    for (int i = 0; i < index; i++)
+    {
+        current = current->next;
+    }
+    printf("%s\n", current->data);
+
+}
 
 /*
  * Return the amount of chars in the list.
 */
-int StrList_printLen(const StrList* Strlist);
+int StrList_printLen(const StrList* Strlist){
+    int len = 0;
+    Node* current = Strlist->head;
+    while (current != NULL)
+    {
+        len += strlen(current->data);
+        current = current->next;
+    }
+    return len;
+
+}
 
 /*
 Given a string, return the number of times it exists in the list.
 */
-int StrList_count(StrList* StrList, const char* data);
+int StrList_count(StrList* StrList, const char* data){
+    int count = 0;
+    Node* current = StrList->head;
+    while (current != NULL)
+    {
+        if (strcmp(current->data, data) == 0)
+        {
+            count++;
+        }
+        current = current->next;
+    }
+    return count;
+}
 
 /*
 	Given a string and a list, remove all the appearences of this string in the list.
 */
-void StrList_remove(StrList* StrList, const char* data);
+void StrList_remove(StrList* StrList, const char* data){
+    Node* current = StrList->head;
+    Node* prev = NULL;
+    while(current != NULL){
+        if(strcmp(current->data , data) == 0){
+            prev->next = current->next;
+            free(current->data);
+            free(current);
+            current = prev->next;
+            continue;
+            StrList->size--;
+        }
+        prev = current;
+        current = current->next;
+    }
+}
 
 /*
 	Given an index and a list, remove the string at that index.
 */
-void StrList_removeAt(StrList* StrList, int index);
+void StrList_removeAt(StrList* StrList, int index){
+    Node* current = StrList->head;
+    Node* prev = NULL;
+    Node* temp = NULL;
+    for(int i=index; i>0; i--){
+        prev = current;
+        current = current->next;
+    }
+
+    prev->next = current->next;
+    free(current->data);
+    free(current);
+    current = prev->next;
+    StrList->size--;
+    
+}
 
 /*
  * Checks if two StrLists have the same elements
  * returns 0 if not and any other number if yes
  */
-int StrList_isEqual(const StrList* StrList1, const StrList* StrList2);
+int StrList_isEqual(const StrList* StrList1, const StrList* StrList2){
+    Node* current1 = StrList1->head;
+    Node* current2 = StrList2->head;
+
+    while(current1 != NULL && current2 != NULL){
+        if(strcmp(current1->data, current2->data) != 0){
+            return 0;
+        }
+        current1 = current1->next;
+        current2 = current2->next;
+    }
+    if(current1 == NULL && current2 == NULL){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
 
 /*
  * Clones the given StrList. 
  * It's the user responsibility to free it with StrList_free.
  */
-StrList* StrList_clone(const StrList* StrList);
+StrList* StrList_clone(const StrList* strList){
+    StrList* newlist = StrList_alloc();
+    Node* current = strList->head;
+    
+    while (strList != NULL)
+    {
+        Node* nnode = (Node*)malloc(sizeof(current));
+        strcpy(nnode->data, current->data);
+        StrList_insertLast(newlist, nnode->data);
+        
+    }
+    return newlist;
+    
+    
+}
 
 /*
  * Reverces the given StrList. 
