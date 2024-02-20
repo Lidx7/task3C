@@ -97,7 +97,7 @@ void StrList_insertLast(StrList* StrList, const char* data)
 void StrList_insertAt(StrList* StrList, const char* data,int index)
 {
     Node* newnode = (Node*)malloc(sizeof(Node));
-    newnode->data = (char*)malloc(strlen(data));
+    newnode->data = data;
     Node* current = StrList->head;
     if(index <= StrList->size)
     {
@@ -265,16 +265,58 @@ StrList* StrList_clone(const StrList* strList){
 /*
  * Reverces the given StrList. 
  */
-void StrList_reverse( StrList* StrList);
+void StrList_reverse( StrList* StrList)
+{
+    Node* prev = NULL;
+    Node* current = StrList->head;
+    Node* next = NULL;
+    while (current != NULL)
+    {
+        next = current->next;
+        current->next = prev;
+        prev = current;
+        current = next;
+    }
+    StrList->head = prev;
+}
 
 /*
  * Sort the given list in lexicographical order 
  */
-void StrList_sort( StrList* StrList);
+void StrList_sort( StrList* StrList){
+    Node* current = StrList->head;
+    Node* next_node = StrList->head->next;
+    Node* temp = NULL;
+    Node* prev = NULL;
+
+    while(current->next != NULL){
+        prev = current;
+        if(strcmp(current->data , current->next->data) > 0){
+            temp = current;
+            current->next = next_node->next;
+            next_node = temp->next;
+            prev->next = current;
+            continue;
+        }
+        current = current->next;
+        next_node = next_node->next;
+    }
+
+}
 
 /*
  * Checks if the given list is sorted in lexicographical order
  * returns 1 for sorted,   0 otherwise
  */
-int StrList_isSorted(StrList* StrList);
+int StrList_isSorted(StrList* StrList){
+    Node* current = StrList->head;
+    Node* next_node = StrList->head->next;
+    while(current->next != NULL){
+        if(strcmp(current->data , current->next->data) > 0){
+            return 0;
+        }
+        current = current->next;
+        next_node = next_node->next;
+    }
+}
 
