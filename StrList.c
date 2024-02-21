@@ -19,7 +19,7 @@
  */
 typedef struct _Node{
     char* data;
-    Node* next;
+    struct _Node* next;
 }Node;
 
 struct _StrList{
@@ -79,8 +79,14 @@ void StrList_insertLast(StrList* StrList, const char* data)
     {
         exit(1);
     }
-    newnode->data = (char*)malloc(strlen(data));
+    newnode->data = strdup(data);
     Node* last = StrList->head;
+    if(StrList->head == NULL)
+    {
+        StrList->head = newnode;
+        StrList->size++;
+        return;
+    }
     while (last->next != NULL)
     {
         last = last->next;
@@ -97,7 +103,7 @@ void StrList_insertLast(StrList* StrList, const char* data)
 void StrList_insertAt(StrList* StrList, const char* data,int index)
 {
     Node* newnode = (Node*)malloc(sizeof(Node));
-    newnode->data = data;
+    newnode->data = strdup(data);
     Node* current = StrList->head;
     if(index <= StrList->size)
     {
@@ -127,7 +133,7 @@ void StrList_print(const StrList* StrList)
     Node* current = StrList->head;
     while (current != NULL)
     {
-        printf("%s\n", current->data);
+        printf("%s ", current->data);
         current = current->next;
     }
 
@@ -205,7 +211,7 @@ void StrList_remove(StrList* StrList, const char* data){
 void StrList_removeAt(StrList* StrList, int index){
     Node* current = StrList->head;
     Node* prev = NULL;
-    Node* temp = NULL;
+    
     for(int i=index; i>0; i--){
         prev = current;
         current = current->next;
@@ -291,7 +297,7 @@ void StrList_sort( StrList* StrList){
 
     while(current->next != NULL){
         prev = current;
-        if(strcmp(current->data , current->next->data) > 0){
+        if(strcmp(current->data , next_node->data) > 0){
             temp = current;
             current->next = next_node->next;
             next_node = temp->next;
@@ -312,11 +318,12 @@ int StrList_isSorted(StrList* StrList){
     Node* current = StrList->head;
     Node* next_node = StrList->head->next;
     while(current->next != NULL){
-        if(strcmp(current->data , current->next->data) > 0){
+        if(strcmp(current->data , next_node->data) > 0){
             return 0;
         }
         current = current->next;
         next_node = next_node->next;
     }
+    return 1;
 }
 
