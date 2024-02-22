@@ -13,7 +13,6 @@ int main()
     int cont_loop = TRUE;
     while (cont_loop)
     {
-        //printf("act: %s\n" , act);
 
         if (strcmp(act , "0") == 0){
             cont_loop = FALSE;
@@ -25,20 +24,12 @@ int main()
             scanf("%d" , &n);
             char str[MAX];
             
-            //char *token = strtok(str, " ");
             for (int i = 0; i < n; i++)
             {
                 scanf("%s" , str);
-                //printf("%s\n" , str);
                 StrList_insertLast(list, str);
             }
-            /*while(token != NULL)      
-            {
-                StrList_insertLast(list, token);
-                token = strtok(NULL, " ");
-                printf("%s\n" , token);
-            }
-            */
+            
              
         }
         if (strcmp(act , "2") == 0)
@@ -49,9 +40,9 @@ int main()
             scanf("%s" , str);
             StrList_insertAt(list, str, n);
         }
+
         if(strcmp(act , "3") == 0)
         {
-            //printf("hi\n");
             if (list!= NULL)
             {
                 StrList_print(list);
@@ -59,54 +50,63 @@ int main()
             }
             printf("\n");
         }
+
         if (strcmp(act , "4") == 0)
         {
             printf("%zu\n" , StrList_size(list));
         }
+        
         if (strcmp(act , "5") == 0)
         {
             int n;
             scanf("%d" , &n);
             StrList_printAt(list, n);
-            //printf("\n");
         }
+
         if (strcmp(act , "6") == 0)
         {
             int len;
             len = StrList_printLen(list);
             printf("%d\n" , len);
         }
+
         if (strcmp(act , "7") == 0)
         {
             char str[MAX];
             scanf("%s" , str);
             printf("%d\n" , StrList_count(list, str));
         }
+        
         if(strcmp(act , "8") == 0)
         {   
             char str[MAX];
             scanf("%s" , str);
             StrList_remove(list, str);
         }
+        
         if (strcmp(act , "9") == 0)
         {
             int n;
             scanf("%d" , &n);
             StrList_removeAt(list, n);
         }
+        
         if (strcmp(act , "10") == 0)
         {
             StrList_reverse(list);
         }
+        
         if (strcmp(act , "11") == 0)
         {   
             StrList_free(list);
             list = NULL;
         }
+
         if(strcmp(act , "12") == 0)
         {
             StrList_sort(list);
         }
+        
         if(strcmp(act , "13") == 0)
         {
             int check;
@@ -122,10 +122,7 @@ int main()
         }
         scanf("%s" , act);
     }
+    
+    
     return 0;
-    
-    
-    
-    
-    
 }
