@@ -11,9 +11,9 @@ int main()
     char act[MAX] = "";
     scanf("%s" , act);
     int cont_loop = TRUE;
+
     while (cont_loop)
     {
-
         if (strcmp(act , "0") == 0){
             cont_loop = FALSE;
         }
@@ -120,6 +120,7 @@ int main()
                 printf("false\n");
             }
         }
+        
         scanf("%s" , act);
     }
     
