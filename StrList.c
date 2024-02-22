@@ -2,6 +2,9 @@
 #include <string.h>
 #include "StrList.h"
 #include <stdlib.h>
+#define FALSE 0
+#define TRUE 1 
+#define MAX 500
 
 /********************************************************************************
  *
@@ -50,15 +53,16 @@ StrList* StrList_alloc()
 void StrList_free(StrList* StrList)
 {
     Node* current = StrList->head;
-    Node* next;
+    Node* delete;
     while (current != NULL)
     {
-        next = current->next;
-        free(current->data);
-        free(current);
-        current = next;
+        delete = current;
+        free(delete->data);
+        current= delete->next;
+        free(delete);
     }
     free(StrList);
+    //printf("freed\n");
 }
 
 /*
@@ -130,13 +134,15 @@ char* StrList_firstData(const StrList* StrList)
  */
 void StrList_print(const StrList* StrList)
 {
-    Node* current = StrList->head;
-    while (current != NULL)
+    if (StrList!= NULL)
     {
-        printf("%s ", current->data);
-        current = current->next;
+        Node* current = StrList->head;
+        while (current != NULL)
+        {
+            printf("%s ", current->data);
+            current = current->next;
+        }   
     }
-
 }
 
 /*
@@ -289,24 +295,69 @@ void StrList_reverse( StrList* StrList)
 /*
  * Sort the given list in lexicographical order 
  */
-void StrList_sort( StrList* StrList){
+void StrList_sort2( StrList* StrList){
     Node* current = StrList->head;
     Node* next_node = StrList->head->next;
-    Node* temp = NULL;
+    Node* temp = (Node*)(malloc(sizeof(Node)));
     Node* prev = NULL;
-
-    while(current->next != NULL){
-        prev = current;
-        if(strcmp(current->data , next_node->data) > 0){
-            temp = current;
-            current->next = next_node->next;
-            next_node = temp->next;
-            prev->next = current;
-            continue;
+    int has_swapped = TRUE;
+    
+    while(has_swapped){
+        has_swapped = FALSE;
+        while(current->next != NULL){
+            prev = current;
+            if(strcmp(current->data , next_node->data) > 0){
+                temp= current;
+                current = next_node;
+                next_node = temp;
+                has_swapped = TRUE;
+                continue;
+            }
+            current = current->next;
+            next_node = next_node->next;
         }
-        current = current->next;
-        next_node = next_node->next;
     }
+    
+    free(temp);
+    free(prev);
+
+}
+
+void StrList_sort(StrList* strList)
+{
+    Node* current = strList->head;
+    Node* nextnode = strList->head->next;
+    Node* temp = (Node*)(malloc(sizeof(Node)));
+    Node* prev = NULL;
+    while (StrList_isSorted(strList) == 0)
+    {
+        current = strList->head;
+        nextnode = strList->head->next;
+        while (nextnode != NULL)
+        {
+            //printf("herefirst\n");
+            //printf("%s\n", current->data);
+            //printf("%s\n", nextnode->data);
+            if (strcmp(current->data, nextnode->data) > 0)
+            {
+                temp->data = strdup(current->data);
+                current->data = strdup(nextnode->data);
+                nextnode->data = strdup(temp->data);
+            }
+            
+            
+            current = current->next;
+            nextnode = nextnode->next;
+            
+            
+            
+            
+        }
+        //printf("here\n");
+    }
+    
+    free(temp);
+    free(prev);
 
 }
 
@@ -317,7 +368,7 @@ void StrList_sort( StrList* StrList){
 int StrList_isSorted(StrList* StrList){
     Node* current = StrList->head;
     Node* next_node = StrList->head->next;
-    while(current->next != NULL){
+    while(next_node != NULL){
         if(strcmp(current->data , next_node->data) > 0){
             return 0;
         }

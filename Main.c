@@ -2,14 +2,22 @@
 #include <string.h>
 #include "StrList.h"
 #define MAX 500
+#define TRUE 1
+#define FALSE 0
 
 int main()
 {
     StrList* list = StrList_alloc();
-    char act[MAX];
+    char act[MAX] = "";
     scanf("%s" , act);
-    while (strcmp(act , "0") != 0)
+    int cont_loop = TRUE;
+    while (cont_loop)
     {
+        //printf("act: %s\n" , act);
+
+        if (strcmp(act , "0") == 0){
+            cont_loop = FALSE;
+        }
         
         if (strcmp(act , "1") == 0)
         {
@@ -43,7 +51,12 @@ int main()
         }
         if(strcmp(act , "3") == 0)
         {
-            StrList_print(list);
+            //printf("hi\n");
+            if (list!= NULL)
+            {
+                StrList_print(list);
+                
+            }
             printf("\n");
         }
         if (strcmp(act , "4") == 0)
@@ -88,6 +101,7 @@ int main()
         if (strcmp(act , "11") == 0)
         {   
             StrList_free(list);
+            list = NULL;
         }
         if(strcmp(act , "12") == 0)
         {
