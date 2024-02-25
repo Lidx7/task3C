@@ -111,7 +111,7 @@ void StrList_insertAt(StrList* StrList, const char* data,int index)
     Node* current = StrList->head;
     if(index <= StrList->size)
     {
-        for (int i = 0; i < index; i++)
+        for (int i = 1; i < index; i++)
         {
             current = current->next;
         } 
@@ -137,11 +137,12 @@ void StrList_print(const StrList* StrList)
     if (StrList!= NULL)
     {
         Node* current = StrList->head;
-        while (current != NULL)
+        while (current->next != NULL)
         {
             printf("%s ", current->data);
             current = current->next;
-        }   
+        }
+	printf("%s", current->data);
     }
 }
 
