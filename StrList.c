@@ -62,7 +62,6 @@ void StrList_free(StrList* StrList)
         free(delete);
     }
     free(StrList);
-    //printf("freed\n");
 }
 
 /*
@@ -265,7 +264,7 @@ StrList* StrList_clone(const StrList* strList){
     
     while (strList != NULL)
     {
-        Node* nnode = (Node*)malloc(sizeof(current));
+        Node* nnode = (Node*)malloc(sizeof(Node));
         strcpy(nnode->data, current->data);
         StrList_insertLast(newlist, nnode->data);
         
@@ -276,7 +275,7 @@ StrList* StrList_clone(const StrList* strList){
 }
 
 /*
- * Reverces the given StrList. 
+ * Reverses the given StrList. 
  */
 void StrList_reverse( StrList* StrList)
 {
@@ -296,34 +295,6 @@ void StrList_reverse( StrList* StrList)
 /*
  * Sort the given list in lexicographical order 
  */
-void StrList_sort2( StrList* StrList){
-    Node* current = StrList->head;
-    Node* next_node = StrList->head->next;
-    Node* temp = (Node*)(malloc(sizeof(Node)));
-    Node* prev = NULL;
-    int has_swapped = TRUE;
-    
-    while(has_swapped){
-        has_swapped = FALSE;
-        while(current->next != NULL){
-            prev = current;
-            if(strcmp(current->data , next_node->data) > 0){
-                temp= current;
-                current = next_node;
-                next_node = temp;
-                has_swapped = TRUE;
-                continue;
-            }
-            current = current->next;
-            next_node = next_node->next;
-        }
-    }
-    
-    free(temp);
-    free(prev);
-
-}
-
 void StrList_sort(StrList* strList)
 {
     Node* current = strList->head;
@@ -336,14 +307,12 @@ void StrList_sort(StrList* strList)
         nextnode = strList->head->next;
         while (nextnode != NULL)
         {
-            //printf("herefirst\n");
-            //printf("%s\n", current->data);
-            //printf("%s\n", nextnode->data);
+
             if (strcmp(current->data, nextnode->data) > 0)
             {
-                temp->data = strdup(current->data);
-                current->data = strdup(nextnode->data);
-                nextnode->data = strdup(temp->data);
+                temp->data = (current->data);
+                current->data = (nextnode->data);
+                nextnode->data = (temp->data);
             }
             
             
@@ -354,7 +323,6 @@ void StrList_sort(StrList* strList)
             
             
         }
-        //printf("here\n");
     }
     
     free(temp);
