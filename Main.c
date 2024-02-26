@@ -15,6 +15,7 @@ int main()
     while (cont_loop)
     {
         if (strcmp(act , "0") == 0){
+            StrList_free(list);
             cont_loop = FALSE;
         }
         
