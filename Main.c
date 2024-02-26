@@ -15,7 +15,7 @@ int main()
     while (cont_loop)
     {
         if (strcmp(act , "0") == 0){
-            StrList_free(list);
+            StrList_free(list); //avoids memory leak
             cont_loop = FALSE;
         }
         
