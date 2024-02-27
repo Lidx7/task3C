@@ -16,6 +16,7 @@ int main()
     {
         if (strcmp(act , "0") == 0){
             StrList_free(list); //avoids memory leak
+            list = NULL;
             cont_loop = FALSE;
         }
         
@@ -124,7 +125,7 @@ int main()
         
         scanf("%s" , act);
     }
-    
+    act[MAX] = '0';
     
     return 0;
 }

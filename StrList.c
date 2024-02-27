@@ -52,8 +52,12 @@ StrList* StrList_alloc()
  */
 void StrList_free(StrList* StrList)
 {
+    if(StrList == NULL){
+        return;
+    }
     Node* current = StrList->head;
     Node* delete;
+    
     while (current != NULL)
     {
         delete = current;
